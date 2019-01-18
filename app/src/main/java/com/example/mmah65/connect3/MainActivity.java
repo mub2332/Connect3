@@ -3,7 +3,11 @@ package com.example.mmah65.connect3;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +58,14 @@ public class MainActivity extends AppCompatActivity {
                     gameState[pos[1]] == gameState[pos[2]] &&
                     gameState[pos[0]] != 2) {
 
+                    String winner = gameState[pos[0]] == 0 ? "Red" : "Yellow";
+                    TextView winMessage = findViewById(R.id.winMessage);
+                    winMessage.setText(winner + " has won!");
 
+                    Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+                    LinearLayout layout = findViewById(R.id.playAgainLayout);
+                    layout.startAnimation(slideUp);
+                    layout.setVisibility(View.VISIBLE);
                 }
             }
         }
