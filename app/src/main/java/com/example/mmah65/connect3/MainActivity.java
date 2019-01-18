@@ -53,22 +53,30 @@ public class MainActivity extends AppCompatActivity {
             gameState[tappedCounter] = activePlayer;
             counter.animate().translationYBy(1000f).rotation(360f).setDuration(300);
 
-            for (int[] pos: winPositions) {
-                if (gameState[pos[0]] == gameState[pos[1]] &&
-                    gameState[pos[1]] == gameState[pos[2]] &&
-                    gameState[pos[0]] != 2) {
+            checkForWinner();
+        }
+    }
 
-                    String winner = gameState[pos[0]] == 0 ? "Red" : "Yellow";
-                    TextView winMessage = findViewById(R.id.winMessage);
-                    winMessage.setText(winner + " has won!");
+    private void checkForWinner() {
+        for (int[] pos: winPositions) {
+            if (gameState[pos[0]] == gameState[pos[1]] &&
+                gameState[pos[1]] == gameState[pos[2]] &&
+                gameState[pos[0]] != 2) {
 
-                    Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
-                    LinearLayout layout = findViewById(R.id.playAgainLayout);
-                    layout.startAnimation(slideUp);
-                    layout.setVisibility(View.VISIBLE);
-                }
+                String winner = gameState[pos[0]] == 0 ? "Red" : "Yellow";
+                TextView winMessage = findViewById(R.id.winMessage);
+                winMessage.setText(winner + " has won!");
+
+                Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+                LinearLayout layout = findViewById(R.id.playAgainLayout);
+                layout.startAnimation(slideUp);
+                layout.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public void playAgain() {
+
     }
 
     @Override
