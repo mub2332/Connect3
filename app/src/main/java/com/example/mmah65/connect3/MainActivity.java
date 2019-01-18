@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 0 = yellow, 1 = red
     int activePlayer = 0;
+    boolean gameIsActive = true;
     // 2 means unplayed
     int[] gameState = {
             2,
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if (counter.getDrawable() == null && gameState[tappedCounter] == 2) {
+        if (gameState[tappedCounter] == 2 && gameIsActive) {
             counter.setTranslationY(-1000f);
             if (activePlayer == 0) {
                 counter.setImageResource(R.drawable.yellow);
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 gameState[pos[1]] == gameState[pos[2]] &&
                 gameState[pos[0]] != 2) {
 
+                gameIsActive = false;
                 String winner = gameState[pos[0]] == 0 ? "Red" : "Yellow";
                 TextView winMessage = findViewById(R.id.winMessage);
                 winMessage.setText(winner + " has won!");
@@ -72,11 +74,31 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout layout = findViewById(R.id.playAgainLayout);
                 layout.startAnimation(slideUp);
                 layout.setVisibility(View.VISIBLE);
+            } else {
+                boolean gameOver = true;
+
+                for (int i = 0; i < gameState.length; i++) {
+                    if (gameState[i] == 2) {
+                        gameOver = false;
+                    }
+                }
+
+                if (gameOver) {
+                    TextView winMessage = findViewById(R.id.winMessage);
+                    winMessage.setText("It's a draw");
+
+                    Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+                    LinearLayout layout = findViewById(R.id.playAgainLayout);
+                    layout.startAnimation(slideUp);
+                    layout.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
 
     public void playAgain(View view) {
+        gameIsActive = true;
+
         LinearLayout layout = findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.INVISIBLE);
 
