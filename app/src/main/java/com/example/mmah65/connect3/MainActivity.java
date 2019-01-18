@@ -9,10 +9,35 @@ public class MainActivity extends AppCompatActivity {
 
     // 0 = yellow, 1 = red
     int activePlayer = 0;
+    // 2 means unplayed
+    int[] gameState = {
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+    };
+    // win positions
+    int[][] winPositions = {
+        {0, 1, 2},
+        {3, 4, 5},
+        {6, 7, 8},
+        {0, 4, 8},
+        {2, 4, 6},
+        {0, 3, 6},
+        {1, 4, 7},
+        {2, 5, 8}
+    };
 
     public void dropIn(View view) {
         ImageView counter = (ImageView) view;
-        if (counter.getDrawable() == null) {
+        int tappedCounter = Integer.parseInt(counter.getTag().toString());
+
+        if (counter.getDrawable() == null && gameState[tappedCounter] == 2) {
             counter.setTranslationY(-1000f);
             if (activePlayer == 0) {
                 counter.setImageResource(R.drawable.yellow);
@@ -21,7 +46,17 @@ public class MainActivity extends AppCompatActivity {
                 counter.setImageResource(R.drawable.red);
                 activePlayer = 0;
             }
+            gameState[tappedCounter] = activePlayer;
             counter.animate().translationYBy(1000f).rotation(360f).setDuration(300);
+
+            for (int[] pos: winPositions) {
+                if (gameState[pos[0]] == gameState[pos[1]] &&
+                    gameState[pos[1]] == gameState[pos[2]] &&
+                    gameState[pos[0]] != 2) {
+
+
+                }
+            }
         }
     }
 
