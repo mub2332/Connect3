@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -75,8 +76,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void playAgain() {
+    public void playAgain(View view) {
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
+        layout.setVisibility(View.INVISIBLE);
 
+        activePlayer = 0;
+        for (int i = 0; i < gameState.length; i++) {
+            gameState[i] = 2;
+        }
+
+        GridLayout grid = findViewById(R.id.gridLayout);
+
+        for (int i = 0; i < grid.getChildCount(); i++) {
+            ((ImageView) grid.getChildAt(i)).setImageResource(0);
+        }
     }
 
     @Override
